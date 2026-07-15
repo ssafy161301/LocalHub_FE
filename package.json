@@ -1,0 +1,25 @@
+{
+  "name": "localhub-fe",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "axios": "latest",
+    "chart.js": "latest",
+    "vite": "latest",
+    "vue": "latest",
+    "vue-chartjs": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.5"
+  }
+}
