@@ -87,7 +87,7 @@ onUnmounted(() => ctrl?.abort())
       </div>
       <RouterLink class="btn primary" to="/posts/new">글쓰기</RouterLink>
     </div>
-    <form class="filters card" @submit.prevent="search">
+    <form class="filters community-filters card" @submit.prevent="search">
       <div class="field">
         <label for="pc">카테고리</label
         ><select id="pc" v-model="form.category">
@@ -144,3 +144,37 @@ onUnmounted(() => ctrl?.abort())
     </div>
   </div>
 </template>
+
+<style scoped>
+.community-filters {
+  grid-template-columns:
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(240px, 2fr)
+    minmax(130px, 1fr);
+}
+
+.community-filters .wide {
+  grid-column: auto;
+}
+
+@media (max-width: 960px) {
+  .community-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .community-filters .wide {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .community-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .community-filters .wide {
+    grid-column: auto;
+  }
+}
+</style>

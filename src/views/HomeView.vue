@@ -2,10 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { getLocationCategories } from '../api/locations.js'
 import { getPosts } from '../api/posts.js'
-import { getDataSource } from '../api/dataSource.js'
 const categories = ref([]),
   posts = ref([]),
-  source = ref(),
   errors = ref({})
 const date = (v) => new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(v))
 onMounted(() => {
@@ -15,9 +13,6 @@ onMounted(() => {
   getPosts({ page: 1, size: 5, sort: 'latest' })
     .then((v) => (posts.value = v.items))
     .catch((e) => (errors.value.p = e.userMessage))
-  getDataSource()
-    .then((v) => (source.value = v))
-    .catch((e) => (errors.value.s = e.userMessage))
 })
 </script>
 <template>
@@ -79,11 +74,6 @@ onMounted(() => {
         ><time>{{ date(x.createdAt) }}</time></RouterLink
       >
       <p v-if="!posts.length" class="muted">아직 등록된 게시글이 없습니다.</p>
-    </div>
-    <div v-if="source" class="source">
-      <span>DATA SOURCE</span>
-      <p>{{ source.attributionText }}</p>
-      <RouterLink to="/data-source">자세히 보기 →</RouterLink>
     </div>
   </section>
 </template>
@@ -231,18 +221,6 @@ onMounted(() => {
 .recent > a:last-of-type {
   border-bottom: 0;
 }
-.source {
-  margin-top: 55px;
-  border-top: 1px solid var(--border);
-  padding-top: 30px;
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-.source p {
-  flex: 1;
-  margin: 0;
-}
 @media (max-width: 900px) {
   .category-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -263,8 +241,7 @@ onMounted(() => {
   .category-grid a {
     padding: 15px;
   }
-  .stats-call,
-  .source {
+  .stats-call {
     align-items: flex-start;
     flex-direction: column;
   }

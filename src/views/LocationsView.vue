@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner.vue'
 import ErrorState from '../components/common/ErrorState.vue'
 import EmptyState from '../components/common/EmptyState.vue'
 import Pagination from '../components/common/Pagination.vue'
+const PAGE_SIZE = 20
 const route = useRoute(),
   router = useRouter(),
   items = ref([]),
@@ -17,9 +18,7 @@ const route = useRoute(),
 const form = reactive({
   category: route.query.category || '',
   keyword: route.query.keyword || '',
-  hasImage: route.query.hasImage || '',
-  sort: route.query.sort || 'title',
-  size: Number(route.query.size) || 20
+  sort: route.query.sort || 'title'
 })
 let ctrl
 async function load() {
@@ -32,7 +31,7 @@ async function load() {
       {
         ...route.query,
         page: Number(route.query.page) || 1,
-        size: Number(route.query.size) || 20
+        size: PAGE_SIZE
       },
       ctrl.signal
     )
@@ -48,6 +47,7 @@ function search() {
   router.push({
     query: {
       page: 1,
+      size: PAGE_SIZE,
       ...Object.fromEntries(Object.entries(form).filter(([, v]) => v !== ''))
     }
   })
@@ -56,14 +56,12 @@ function reset() {
   Object.assign(form, {
     category: '',
     keyword: '',
-    hasImage: '',
-    sort: 'title',
-    size: 20
+    sort: 'title'
   })
-  router.push({ query: { page: 1, sort: 'title', size: 20 } })
+  router.push({ query: { page: 1, sort: 'title', size: PAGE_SIZE } })
 }
 function page(n) {
-  router.push({ query: { ...route.query, page: n } })
+  router.push({ query: { ...route.query, page: n, size: PAGE_SIZE } })
 }
 watch(() => route.fullPath, load)
 onMounted(() => {
@@ -105,14 +103,6 @@ onUnmounted(() => ctrl?.abort())
           <option value="title">이름순</option>
           <option value="title_desc">이름 역순</option>
           <option value="latest">최근 수정순</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="li">이미지</label
-        ><select id="li" v-model="form.hasImage">
-          <option value="">전체</option>
-          <option value="true">이미지 있음</option>
-          <option value="false">이미지 없음</option>
         </select>
       </div>
       <div class="actions">
