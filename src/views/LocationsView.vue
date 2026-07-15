@@ -7,7 +7,8 @@ import LoadingSpinner from '../components/common/LoadingSpinner.vue'
 import ErrorState from '../components/common/ErrorState.vue'
 import EmptyState from '../components/common/EmptyState.vue'
 import Pagination from '../components/common/Pagination.vue'
-const PAGE_SIZE = 20
+// 3열 데스크톱과 2열 태블릿 모두 마지막 행이 비지 않도록 6의 배수로 조회합니다.
+const PAGE_SIZE = 18
 const route = useRoute(),
   router = useRouter(),
   items = ref([]),
